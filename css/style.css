@@ -18,11 +18,11 @@ body{font-family: Pretendard,Inter,system-ui,-apple-system,Segoe UI,Roboto,'Noto
 .hero-inner{padding:2px}
 .logo-wrap{display:flex;justify-content:center;margin:0}
 .mast-logo{width:36px;height:auto;display:block}
-.hero-title{font-family: 'Escoredream', Pretendard, sans-serif;font-size:clamp(16px,5.5vw,36px);margin:0;line-height:1.05;font-weight:800;color:var(--text-light);box-sizing:border-box;padding:0 10px}
+.hero-title{font-family: 'Escoredream', Pretendard, sans-serif;font-size:40px;margin:0;line-height:1.05;font-weight:800;color:var(--text-light);box-sizing:border-box;padding:0 10px}
 .hero-title .hero-copy{display:block;text-align:center;max-width:100%;box-sizing:border-box;padding:0 6px;white-space:normal;word-break:break-word;overflow-wrap:break-word}
 .hero-title .part1{font-family:Pretendard, sans-serif;font-weight:400;display:inline}
 .hero-title .part2{font-family:Pretendard, sans-serif;font-weight:600;display:inline}
-.hero-title .highlight{background:rgb(101,120,255);color:#fff;padding:0 4px;border-radius:0;display:inline-block;max-width:90%;box-sizing:border-box}
+.hero-title .highlight{background:rgb(101,120,255);color:#fff;padding:0 8px;border-radius:0;display:inline-block;max-width:95%;box-sizing:border-box}
 .accent{color:var(--mc-red);display:inline-block}
 .hero-sub{margin:6px 0;color:rgba(255,255,255,0.9);font-weight:600}
 .hero-small{font-size:12px;color:var(--muted);margin:0 0 6px}
@@ -35,8 +35,8 @@ body{font-family: Pretendard,Inter,system-ui,-apple-system,Segoe UI,Roboto,'Noto
 .map-bg{background:#ffffff;border-radius:0;padding:12px;color:var(--text-dark)}
 .map-inner{padding:6px}
 .map-hint{color:rgba(0,0,0,0.6);margin:4px 6px 12px}
-.map-wrap{padding:6px;width:100%;max-width:390px;overflow:visible;display:flex;justify-content:center;align-items:center;margin:0 auto}
-.jp-map{width:100%;height:auto;max-width:380px;max-height:none;border-radius:0;display:block;margin:0 auto}
+.map-wrap{padding:6px;width:100%;max-width:360px;overflow:visible;display:flex;justify-content:center;align-items:center;margin:0 auto}
+.jp-map{width:100%;height:auto;max-width:360px;max-height:none;border-radius:0;display:block;margin:0 auto}
 .pin{cursor:pointer;transition:filter .18s ease}
 /* remove hover translate to avoid jitter/movement */
 .pin:hover{transform:none}
@@ -92,8 +92,19 @@ body{font-family: Pretendard,Inter,system-ui,-apple-system,Segoe UI,Roboto,'Noto
 }
 
 @media (max-width:420px){
-  .hero-title{font-size:clamp(16px,6.5vw,20px);padding:0 8px}
+  .hero-title{font-size:40px;padding:0 8px}
   .hero-title .hero-copy{font-size:16px}
   .hero-title .highlight{padding:0 4px}
   .promo-title{font-size:16px}
+  /* Improve legibility on small screens */
+  .lead{font-size:16px}
+  .region-content{font-size:15px}
+  .region-header h3{font-size:20px}
+  .promo-desc{font-size:15px}
+  .pin-label{font-size:12px}
+  /* Slightly narrower white boxes for mobile so content breathes */
+  .map-wrap{max-width:340px}
+  .jp-map{max-width:340px}
+  .promo{max-width:340px;margin-left:auto;margin-right:auto}
+  .region-card{max-width:340px;margin-left:auto;margin-right:auto}
 }
