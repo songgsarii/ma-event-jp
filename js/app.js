@@ -292,7 +292,6 @@ function showRegion(id){
     <div class="muted">${r.brewery}</div>
     <div class="muted small">${r.taste}</div>
     <div class="muted small">추천 페어링: ${r.pairing}</div>
-    <p class="muted small" style="margin-top:8px">나마자케는 일반 사케와 달리 열처리를 하지 않아 신선하고 생생한 향을 즐길 수 있습니다. 특히 겨울 신주 시즌에 다양한 나마자케가 출시됩니다.</p>
   `;
   // Brewery section removed; no brewery updates needed
   const rc = document.getElementById('region-card');
