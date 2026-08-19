@@ -110,6 +110,7 @@ body{font-family: Pretendard,Inter,system-ui,-apple-system,Segoe UI,Roboto,'Noto
   /* Slightly narrower white boxes for mobile so content breathes */
   .map-wrap{max-width:340px}
   .jp-map{max-width:340px}
+  .map-section{max-width:340px;margin-left:auto;margin-right:auto}
   .promo{max-width:340px;margin-left:auto;margin-right:auto}
   .region-card{max-width:340px;margin-left:auto;margin-right:auto}
 }
