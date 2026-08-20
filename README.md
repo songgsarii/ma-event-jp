@@ -18,3 +18,4 @@ Notes:
 
 - The Japan map is a simplified illustrative SVG for presentation only.
 - The Rakuten Travel CTA links to the public Rakuten Travel Japan site as a placeholder.
+- The page includes browser-side deterrents and `noindex` metadata, but these do not provide real access control. For internal-only use, deploy it behind authentication or an IP/VPN allowlist, and keep sensitive data on the server rather than in `js/app.js`.

@@ -1,6 +1,29 @@
+// Deter casual copying. This is not an access-control mechanism; all client-side
+// code and data remain accessible to anyone who can load the page.
+(() => {
+  const blockedShortcuts = (event) => {
+    const key = event.key.toLowerCase();
+    const developerToolsShortcut = event.key === 'F12'
+      || (event.ctrlKey && event.shiftKey && ['i', 'j', 'c'].includes(key))
+      || (event.metaKey && event.altKey && ['i', 'j', 'c'].includes(key));
+    const documentShortcut = (event.ctrlKey || event.metaKey)
+      && ['u', 's', 'p', 'c', 'x'].includes(key);
+
+    if (developerToolsShortcut || documentShortcut) {
+      event.preventDefault();
+    }
+  };
+
+  document.addEventListener('contextmenu', (event) => event.preventDefault());
+  document.addEventListener('copy', (event) => event.preventDefault());
+  document.addEventListener('cut', (event) => event.preventDefault());
+  document.addEventListener('dragstart', (event) => event.preventDefault());
+  document.addEventListener('keydown', blockedShortcuts);
+})();
+
 const regions = {
   niigata: {
-    name: 'NIIGATA / 新潟',
+    name: '니가타현',
     desc: '눈이 녹아 만든 깨끗한 물과 좋은 쌀로 유명한 일본 대표 사케 산지',
     sake: 'Hakkaisan Shiboritate Nama',
     brewery: 'Hakkaisan Brewery',
@@ -10,7 +33,7 @@ const regions = {
     breweryText: '니가타의 깨끗한 물과 설국의 자연환경을 기반으로 깔끔한 사케를 만드는 대표적인 양조장.'
   },
   nagano: {
-    name: 'NAGANO / 長野',
+    name: '나가노현',
     desc: '고원지대의 맑은 물로 빚어지는 풍부한 아로마의 나마자케',
     sake: 'Kokuryu Nama',
     brewery: 'Kokuryu Brewery',
@@ -20,7 +43,7 @@ const regions = {
     breweryText: '알프스 기후의 깨끗한 물을 쓰는 소규모 양조장.'
   },
   yamagata: {
-    name: 'YAMAGATA / 山形',
+    name: '야마가타현',
     desc: '눈 덮인 산간에서 나는 신선한 쌀로 만든 부드러운 나마자케',
     sake: 'Junmai Nama',
     brewery: 'Yamagata Sake Co.',
@@ -30,7 +53,7 @@ const regions = {
     breweryText: '전통을 지키며 소량 생산으로 품질을 우선하는 양조장.'
   },
   akita: {
-    name: 'AKITA / 秋田',
+    name: '아키타현',
     desc: '추운 기후가 만들어내는 조밀한 맛의 나마자케',
     sake: 'Akita Fresh Nama',
     brewery: 'Akita Brewery',
@@ -39,8 +62,18 @@ const regions = {
     breweryLoc: 'Akita, Japan',
     breweryText: '설원 지역의 기후를 살려 단단한 맛을 내는 양조장.'
   },
+  gifu: {
+    name: '기후현',
+    desc: '양조장에서 바로 만나는 겨울의 생생함. 열처리와 여과를 최소화한 무여과 생원주.',
+    sake: '호라이 무여과 오리가라미 생원주 · 호라이 효모축제 기념 생주',
+    brewery: '渡辺酒造店 / Watanabe Sake Brewery',
+    taste: '풍부함 · 생생함 · 쌀의 깊은 맛',
+    pairing: '구이류 · 겨울 전골',
+    breweryLoc: 'Gifu, Japan',
+    breweryText: '2026 나마자케 부문 최고금상 수상작을 빚은 기후의 전통 양조장.'
+  },
   kyoto: {
-    name: 'KYOTO / 京都',
+    name: '교토',
     desc: '전통 도시 교토에서 만드는 세련된 풍미의 나마자케',
     sake: 'Kyoto Nama',
     brewery: 'Kyoto Sake Works',
@@ -50,9 +83,9 @@ const regions = {
     breweryText: '전통과 현대를 잇는 세련된 양조장.'
   },
   hyogo: {
-    name: 'HYOGO / 兵庫',
+    name: '효고현',
     desc: '효고의 풍부한 쌀로 만든 균형잡힌 나마자케',
-    sake: 'Hyogo Nama',
+    sake: '센스케 준마이 긴조 오리가라미 생원주 · 시라유키 준마이 긴조 생원주',
     brewery: 'Nada Brewery',
     taste: '밸런스 · 미네랄',
     pairing: '스테이크 · 피자',
@@ -60,7 +93,7 @@ const regions = {
     breweryText: '효고의 전통 양조 방식으로 유명한 양조장.'
   },
   hiroshima: {
-    name: 'HIROSHIMA / 広島',
+    name: '히로시마현',
     desc: '바다 가까운 풍토가 만드는 깔끔한 해산물 페어링 사케',
     sake: 'Hiroshima Nama',
     brewery: 'Setouchi Brewery',
@@ -176,14 +209,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     nagano: 'JP20',
     kyoto: 'JP26',
     hiroshima: 'JP34',
-    hyogo: 'JP28'
+    hyogo: 'JP28',
+    gifu: 'JP21'
   };
 
   // Helper to create an SVG pin at (cx,cy)
   const SVG_NS = 'http://www.w3.org/2000/svg';
   function createPin(id, cx, cy, label) {
     const g = document.createElementNS(SVG_NS, 'g');
-    g.setAttribute('class', 'pin');
+    g.setAttribute('class', ['gifu', 'hyogo'].includes(id) ? 'pin featured' : 'pin');
     g.setAttribute('data-id', id);
     g.setAttribute('role', 'button');
     g.setAttribute('tabindex', '0');
@@ -209,6 +243,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     core.setAttribute('class', 'pin-core');
     core.setAttribute('fill', '#0b2340');
     g.appendChild(core);
+
+    const star = document.createElementNS(SVG_NS, 'polygon');
+    star.setAttribute('class', 'pin-star');
+    star.setAttribute('points', '0,-13 3.1,-4.3 12.4,-4 5,1.6 7.7,10.7 0,5.5 -7.7,10.7 -5,1.6 -12.4,-4 -3.1,-4.3');
+    g.appendChild(star);
 
     const txt = document.createElementNS(SVG_NS, 'text');
     txt.setAttribute('class', 'pin-label');
@@ -249,12 +288,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
     if (cx != null && cy != null) {
-      createPin(rid, cx, cy, rid);
+      createPin(rid, cx, cy, regions[rid]?.name || rid);
     }
   });
 
   // Now wire up interactions for the dynamically created pins
   const pins = svg.querySelectorAll('.pin');
+  const pinActivators = new Map();
   function clearActiveLocal(){ pins.forEach(p=>p.classList.remove('active')); }
   pins.forEach(pin=>{
     const activate = ()=>{
@@ -267,9 +307,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       if(rc) rc.classList.add('visible');
       if(rc) rc.scrollIntoView({behavior:'smooth',block:'center'});
     };
+    pinActivators.set(pin.dataset.id, activate);
     pin.addEventListener('click', activate);
     pin.addEventListener('touchstart', e=>{ e.preventDefault(); activate(); });
     pin.addEventListener('keydown', e=>{ if(e.key==='Enter') activate(); });
+  });
+
+  document.querySelectorAll('.featured-region').forEach(card => {
+    const activateFeatured = () => {
+      const activatePin = pinActivators.get(card.dataset.region);
+      if (activatePin) activatePin();
+    };
+    card.addEventListener('click', activateFeatured);
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activateFeatured();
+      }
+    });
   });
 
 });
